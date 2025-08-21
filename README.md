@@ -1,125 +1,126 @@
-# try - fresh directories for every vibe
+<!--
+  このREADMEは「try」プロジェクトの概要を説明します。新しい実験やアイデアごとに新しいディレクトリを簡単に作成・管理できるツールです。セットアップ手順、使い方の例、プロジェクトの目的や構成に関する注意事項を含みます。
+-->
+# try - すべての「ひらめき」は新しいディレクトリで
 
-*Your experiments deserve a home.* 🏠
+*実験には、適切な場所が必要です* 🏠
 
-> For everyone who constantly creates new projects for little experiments, a one-file Ruby script to quickly manage and navigate to keep them somewhat organized
+> ちょっとした実験のたびに新しいプロジェクトを作ってしまう人へ。このワンファイルRubyスクリプトで、散らかりがちなディレクトリを素早く管理・移動して、少しだけ整理された環境を提供します。
 
-Ever find yourself with 50 directories named `test`, `test2`, `new-test`, `actually-working-test`, scattered across your filesystem? Or worse, just coding in `/tmp` and losing everything?
+ファイルシステムに `test`, `test2`, `new-test`, `actually-working-test` などのディレクトリが50個も散らばってしまったことはありませんか？あるいは `/tmp` でコードを書いて、すべて消えてしまったことは？
 
-**try** is here for your beautifully chaotic mind.
+**try** は、そんな混沌としたあなたのためのツールです。
 
-# What it does 
+# できること
 
 [![asciicast](https://asciinema.org/a/ve8AXBaPhkKz40YbqPTlVjqgs.svg)](https://asciinema.org/a/ve8AXBaPhkKz40YbqPTlVjqgs)
 
-Instantly navigate through all your experiment directories with:
-- **Fuzzy search** that just works
-- **Smart sorting** - recently used stuff bubbles to the top
-- **Auto-dating** - creates directories like `2025-08-17-redis-experiment`
-- **Zero config** - just one Ruby file, no dependencies
+すべての実験ディレクトリを瞬時に移動：
+- **あいまい検索**で素早く見つかる
+- **スマートソート**で最近使ったものが上位に
+- **自動日付付与**で `2025-08-17-redis-experiment` のようなディレクトリ名を作成
+- **設定不要** Rubyファイル1つ、依存なし
 
-## Quick Start
+## クイックスタート
 
 ```bash
 curl -sL https://raw.githubusercontent.com/tobi/try/refs/heads/main/try.rb > ~/.local/try.rb
 
-# Make "try" executable so it can be run directly
+# "try" を実行可能にする
 chmod +x ~/.local/try.rb
 
-# Add to your shell (bash/zsh)
+# シェル(bash/zsh)に追加
 echo 'eval "$(~/.local/try.rb init ~/src/tries)"' >> ~/.zshrc
 ```
 
-## The Problem
+## よくある問題
 
-You're learning Redis. You create `/tmp/redis-test`. Then `~/Desktop/redis-actually`. Then `~/projects/testing-redis-again`. Three weeks later you can't find that brilliant connection pooling solution you wrote at 2am.
+Redisを学んでいるとき、`/tmp/redis-test` を作り、次は `~/Desktop/redis-actually`、さらに `~/projects/testing-redis-again`。3週間後、深夜2時に書いたあの素晴らしいコネクションプールのコードがどこにあるか分からなくなります。
 
-## The Solution
+## 解決策
 
-All your experiments in one place, with instant fuzzy search:
+すべての実験を一箇所にまとめ、あいまい検索で即座にアクセス：
 
 ```bash
 $ try pool
-→ 2025-08-14-redis-connection-pool    2h, 18.5
-  2025-08-03-thread-pool              3d, 12.1
-  2025-07-22-db-pooling               2w, 8.3
-  + Create new: pool
+→ 2025-08-14-redis-connection-pool    2時間前, 18.5
+  2025-08-03-thread-pool              3日前, 12.1
+  2025-07-22-db-pooling               2週間前, 8.3
+  + 新規作成: pool
 ```
 
-Type, arrow down, enter. You're there.
+入力して、下矢印、<kbd><kbd>Enter</kbd></kbd>ですぐ移動。
 
-## Features
+## 主な機能
 
-### 🎯 Smart Fuzzy Search
-Not just substring matching - it's smart:
-- `rds` matches `redis-server`
-- `connpool` matches `connection-pool`
-- Recent stuff scores higher
-- Shorter names win on equal matches
+### 🎯 スマートあいまい検索
+部分一致だけでなく、賢く検索：
+- `rds` で `redis-server` に一致
+- `connpool` で `connection-pool` に一致
+- 最近使ったものほど上位
+- 名前が短いほど同点なら上位
 
-### ⏰ Time-Aware
-- Shows how long ago you touched each project
-- Recently accessed directories float to the top
-- Perfect for "what was I working on yesterday?"
+### ⏰ 時間認識
+- 最終更新からの経過時間を表示
+- 最近アクセスしたディレクトリが上位
+- 「昨日何してたっけ？」に最適
 
-### 🎨 Pretty TUI
-- Clean, minimal interface
-- Highlights matches as you type
-- Shows scores so you know why things are ranked
-- Dark mode by default (because obviously)
+### 🎨 シンプルなTUI
+- クリーンでミニマルなインターフェース
+- 入力中に一致箇所をハイライト
+- スコア表示で順位理由が分かる
+- デフォルトでダークモード
 
-### 📁 Organized Chaos
-- Everything lives in `~/src/tries` (configurable via `TRY_PATH`)
-- Auto-prefixes with dates: `2025-08-17-your-idea`
-- Skip the date prompt if you already typed a name
+### 📁 整理されたカオス
+- すべて `~/src/tries` に保存（`TRY_PATH`で変更可）
+- 日付で自動プレフィックス：`2025-08-17-your-idea`
+- 名前を入力済みなら日付入力をスキップ
 
-### Shell Integration
+### シェル連携
 
-Add to your `~/.bashrc` or `~/.zshrc`:
-
-
+`~/.bashrc` や `~/.zshrc` に追加：
 
 ```bash
-# default is ~/src/tries
+# デフォルトは ~/src/tries
 eval "$(~/.local/try.rb init)"
 ```
 
-Or if you want to customize the location:
+保存場所を変更したい場合：
 
 ```bash
 eval "$(~/.local/try.rb init ~/src/tries)"
 ```
 
-## Usage
+## 使い方
 
 ```bash
-try                 # Browse all experiments
-try redis           # Jump to redis experiment or create new
-try new api         # Start with "2025-08-17-new-api"
-try --help          # See all options
+try                 # すべての実験を一覧
+try redis           # redis実験に移動、なければ新規作成
+try new api         # "2025-08-17-new-api" で新規開始
+try --help          # オプション一覧
 ```
 
-### Keyboard Shortcuts
+### キーボードショートカット
 
-- `↑/↓` or `Ctrl-P/N` - Navigate
-- `Enter` - Select or create
-- `Backspace` - Delete character
-- `ESC` - Cancel
-- Just type to filter
+- <kbd><kbd>↑</kbd></kbd>/<kbd><kbd>↓</kbd></kbd> または <kbd><kbd>Ctrl</kbd></kbd>-<kbd><kbd>P</kbd></kbd>/<kbd><kbd>N</kbd></kbd> - 移動
+- <kbd><kbd>Enter</kbd></kbd> - 選択または新規作成
+- <kbd><kbd>Backspace</kbd></kbd> - 文字削除
+- <kbd><kbd>ESC</kbd></kbd> - キャンセル
+- 入力するだけで絞り込み
 
-## Configuration
+## 設定
 
-Set `TRY_PATH` to change where experiments are stored:
+実験ディレクトリの保存場所を変更するには `TRY_PATH` を設定：
 
 ```bash
 export TRY_PATH=~/code/sketches
 ```
 
-Default: `~/src/tries`
+デフォルト: `~/src/tries`
 
 ## Nix
 
-### Quick start
+### クイックスタート
 
 ```bash
 nix run github:tobi/try
@@ -137,48 +138,46 @@ nix run github:tobi/try init ~/my-tries
   
   programs.try = {
     enable = true;
-    path = "~/experiments";  # optional, defaults to ~/src/tries
+    path = "~/experiments";  # 任意。デフォルトは ~/src/tries
   };
 }
 ```
 
-## Why Ruby?
+## Rubyを選んだ理由
 
-- One file, no dependencies
-- Works on any system with Ruby (macOS has it built-in)
-- Fast enough for thousands of directories
-- Easy to hack on
+- ファイル1つ、依存なし
+- Rubyが入っていればどこでも動作（macOSは標準搭載）
+- 数千ディレクトリでも十分高速
+- 改造が簡単
 
-## The Philosophy
+## 哲学
 
-Your brain doesn't work in neat folders. You have ideas, you try things, you context-switch like a caffeinated squirrel. This tool embraces that.
+人の脳はきれいなフォルダ構造では動きません。アイデアが浮かび、試し、カフェインでテンションが上がったリスのようにコンテキストを切り替えます。このツールはその混沌を受け入れます。
 
-Every experiment gets a home. Every home is instantly findable. Your 2am coding sessions are no longer lost to the void.
+すべての実験に居場所を。すべての居場所はすぐ見つかる。深夜2時のコードも、もう消えません。
 
-## FAQ
+## よくある質問
 
-**Q: Why not just use `cd` and `ls`?**
-A: Because you have 200 directories and can't remember if you called it `test-redis`, `redis-test`, or `new-redis-thing`.
+**Q: `cd` や `ls` じゃダメなの？**
+A: ディレクトリが200個もあると、`test-redis` か `redis-test` か `new-redis-thing` か覚えていられません。
 
-**Q: Why not use `fzf`?**
-A: fzf is great for files. This is specifically for project directories, with time-awareness and auto-creation built in.
+**Q: `fzf` じゃダメ？**
+A: fzfはファイル検索には最適ですが、これはプロジェクトディレクトリ専用。時間認識や自動作成機能付きです。
 
-**Q: Can I use this for real projects?**
-A: You can, but it's designed for experiments. Real projects deserve real names in real locations.
+**Q: 本番プロジェクトにも使える？**
+A: 使えますが、これは実験用。正式なプロジェクトには正式な名前と場所を。
 
-**Q: What if I have thousands of experiments?**
-A: First, welcome to the club. Second, it handles it fine - the scoring algorithm ensures relevant stuff stays on top.
+**Q: 実験が何千個もあったら？**
+A: ようこそ仲間へ。スコアリングアルゴリズムで関連性の高いものが常に上位に来ます。
 
-## Contributing
+## コントリビュート
 
-It's one file. If you want to change something, just edit it. Send a PR if you think others would like it too.
+ファイルは1つだけ。変更したい場合は直接編集してください。他の人にも役立ちそうならPRを送ってください。
 
-## License
+## ライセンス
 
-MIT - Do whatever you want with it.
+MIT - ご自由にどうぞ。
 
----
+*ADHDな開発者による、ADHDな開発者のためのツール*
 
-*Built for developers with ADHD by developers with ADHD.*
-
-*Your experiments deserve a home.* 🏠
+*あなたの実験に居場所を* 🏠
